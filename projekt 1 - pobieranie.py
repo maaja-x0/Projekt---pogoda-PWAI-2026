@@ -10,8 +10,6 @@ for year in range(2001, 2024):
         url = f"https://danepubliczne.imgw.pl/data/dane_pomiarowo_obserwacyjne/dane_meteorologiczne/dobowe/klimat/{year}/{year}_{month}_k.zip"
         output = f"data/raw/{year}_{month}.zip"
 
-        os.system(
-            f'curl -L "{url}" -o "{output}"'
-        )
+        os.system(f'curl -L "{url}" -o "{output}"')
 
         time.sleep(1)
