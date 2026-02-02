@@ -9,6 +9,4 @@ for year in range(2001, 2024):
         zip_path = f"data/raw/{year}_{month}.zip"
         out_dir = "data/unpacked"
 
-        os.system(
-            f'unzip -o "{zip_path}" -d "{out_dir}"'
-        )
+        os.system(f'unzip -o "{zip_path}" -d "{out_dir}"')
