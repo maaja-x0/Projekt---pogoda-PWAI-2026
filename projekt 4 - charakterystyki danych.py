@@ -3,9 +3,6 @@ import matplotlib.pyplot as plt
 
 data = np.loadtxt("data/dane.csv", delimiter=',', dtype=str, encoding="cp1250")
 
-data.shape
-print(data.shape[0])
-
 id_stacji = data[:,0]
 id_stacji = np.unique(id_stacji)
 id_stacji.shape[0]
@@ -55,4 +52,35 @@ plt.bar(x, y)
 krok = 48
 plt.xticks(x[::krok], etykiety[::krok])
 # plt.xticks(x, list(liczba_pomiarow.keys()))
+plt.show()
+
+from datetime import datetime
+
+stacje_z_danymi_2 = data[:,0:10]
+stacje_z_danymi_2 = np.unique(stacje_z_danymi_2, axis = 0)
+
+id_pomiary_dict_2 = {id : stacje_z_danymi_2[stacje_z_danymi_2[:,0] == id].shape[0] for id in id_stacji}
+
+stacja_z_pelna_historia_2 = '249220180'
+dane = stacje_z_danymi_2[stacje_z_danymi_2[:,0] == stacja_z_pelna_historia_2]
+dane
+
+rok = dane[:,2].astype(int)
+miesiac = dane[:,3].astype(int)
+dzien = dane[:,4].astype(int)
+temperatura = dane[:,9].astype(float)
+
+start = datetime(2001, 1, 1)
+
+dni_od_startu = np.array([
+    (datetime(r, m, d) - start).days
+    for r, m, d in zip(rok, miesiac, dzien)
+])
+
+plt.figure(figsize=(12, 5))
+plt.plot(dni_od_startu, temperatura, linewidth=0.5)
+plt.xlabel("Liczba dni od 01.01.2001")
+plt.ylabel("Średnia dobowa temperatura [°C]")
+plt.title("Średnia dobowa temperatura – stacja z pełną historią")
+plt.grid(True)
 plt.show()
