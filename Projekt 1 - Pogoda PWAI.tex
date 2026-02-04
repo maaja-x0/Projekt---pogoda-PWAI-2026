@@ -8,7 +8,7 @@
 \usepackage{graphicx}
 \usepackage[utf8]{inputenc}
 
-\title{Pogoda}
+\title{Raport}
 \author{Hanna Taraszkiewicz, Maja Węgrzyk}
 \date{4 Lutego 2026}
 \begin{document}
@@ -66,6 +66,22 @@ Stacja z niepełną historią pomiarów, zostaje wybrana z "\verb|stacje_z_data|
 \end{figure}
 
 Z powodu nagromadzenia nazw miesięcy na osi $OX$ ich ilość została zmniejszona by wykres wyglądał przejrzyściej. 
+
+Następnie kod wybuera potrzebne danetakie aby się nie powtarzały.Tworzy z nich słownik który liczy ilośc pomiarów.
+Wybiera stację z pełną historią i przechodzi po "\verb|stacje_z_danymi|" i wybiera jedynie te z podanym id kodem stacji.
+
+Ustawia początkową datę na pierwszy dzień 2001,
+następnie oblicza ile dni upłynęło od początkowej daty i zapisuje tą informacje w tablicy numpy (dzięki temu każdemu pomiarowi może przypisać odpowiednią temperaturę).
+
+
+\begin{figure}
+    \centering
+    \includegraphics[width=0.5\linewidth]{projekt 4.2 schemat.png}
+    \caption{Enter Caption}
+    \label{fig:placeholder}
+\end{figure}
+
+
 
 \newpage
 
