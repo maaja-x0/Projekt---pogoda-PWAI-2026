@@ -1,0 +1,127 @@
+\documentclass{article}
+\usepackage{graphicx} % Required for inserting images
+\usepackage[utf8]{inputenc}
+\usepackage{listings}
+\usepackage{framed}
+\lstset{frame=single}
+\usepackage{polski}
+\usepackage{graphicx}
+\usepackage[utf8]{inputenc}
+
+\title{Raport}
+\author{Hanna Taraszkiewicz, Maja Węgrzyk}
+\date{4 Lutego 2026}
+\begin{document}
+
+\maketitle
+
+\section{Pobieranie}
+
+Na początek kod sięga do dodatkowych bibliotek, które pozwalają na wykonywanie nowych komend. "\verb|Os|" pozwala uruchamiać polecenia systemowe, a "\verb|time|", zmusza kod do robienia kilkusekundowych przerw w wybranych miejscach. 
+
+Następnie utworzone zostajom foldery "\verb|data|" oraz "\verb|raw|", wewnątrz niego, jeśli już istnieją ponowne uruchomienie programu ich nie zduplikuje. 
+
+Program tworzy dwie pentle, pierwszą przechodzącą przez lata 2001 - 2023, a drugą, wewnątrz niej przez kolejne miesiące każdego roku.
+
+"\verb|Url = [...]|" urzywa stworzonych w pętli dat by pobrać kolejne pliki z wszystkich miesięcy lac 2001 - 2023. Następnie "\verb|output = f"data/raw/[...].zip|" zapisuje je w folderze "\verb|raw|" pod nazwą odpowiadającą miesiącowi roku i w formacie "\verb|zip|". 
+
+Pętla jest domknięta przez:
+        "\verb|os.system(f'curl -L "{url}" -o "{output}"')|"
+komendę, która pobiera pliki z internetu zgodnie z kolejnymi datami oraz zapisuje je pod odpowiednią nazwą. 
+
+Ostatnie polecenie upewnia się, że między pobraniem każdego pliku program odczeka sekundę, dzięki czemu nagłe pobranie durzej ilości plików, bo aż 276, nie powinno zostać odczytane jako cyberatak. 
+
+\section{Rozpakowywanie}
+
+Jak wyrzej, stworzony zostaje nieduplikujący się przez pnowne uruchomienie kodu folder, nazwany "\verb|unpacked|", do którego rozpakowane zostaną pliki "\verb|zip|". 
+
+Poraz kolejny program tworzy pentlę lat i miesięcy, oraz nazwę pliku "\verb|zip|", która będzie zmieniać się przy każdym kroku pentli, umorzliwiając działanie programu na wszystkich pobranych wcześniej plikach poprzez wywołanie ich nazwy. "\verb|Out_dir = "data/unpacked"|" określa, że pliki zostaną rozpakowane do folderu "\verb|unpacked|".
+"\verb|os.system(f'unzip -o "{zip_path}" -d "{out_dir}"')|" uruchamia system rozpakowujący do odpowiedniego folderu, w razie potrzeby (na wypadek ponownego uruchomienia w celu zapobiegnięca utworzeniu zbędnych kopi) nadpisując istniejące w nim pliki.
+
+\section{Scalanie}
+W istniejącym już folderze "\verb|data|" tworzony zostaje plik "\verb|dane.csv|". Na wypadek kilkukrotnego uruchomienia kodu zostaje on nadpisany. "\verb|encoding='cp1250|" umożliwia w nim istnienie polskich liter.
+
+Ponownie utworzona jest pętla, oraz odpowiadające kolejnym datom nazwy plików "\verb|csv|" do odczytu.
+
+Następnie plik zostaje otwarty, przeczytany (przez kod) linijka po linijce, pozbawiony cudzysłowów, zapisany do pliku "\verb|dane.csv|" i zamknięty. Po każdej iteracji pentli program wyświetla infromację o przeczytaniu kolejnego pliku. 
+
+Następnie cały plik "\verb|dane.csv|" zostaje zamknięty, zawierając dane z wszystkich pobranych wcześniej plików z lat 2001 - 2023
+
+\section{Charakterystyki danych}
+
+Dodatkowe biblioteki, "\verb|numpy|", rozpoznawane przez kod jako skrót "\verb|np|", oraz "\verb|matplotlib.pyplot|", jako "\verb|plt|", pozawalają na korzystanie z zaawansowanych narzędzi matematycznych oraz tworzenie wykresów na bazie dostępnych programowi danych. 
+
+Program wczytuje utworzony uprzednio scalony plik, traktując go w całości jako tekst, oddzielając kolejne kolumny przecinkami. Następnie sprawdza ilość linijek tekstu, różnych stacji pomiarowych, oraz niepowtarzających się dat.
+
+Utworzona zostaje tablica skłądająca się z niepowtarzalnego ID stacji, jej nazwy, oraz daty pomiaru. Na bazie tej tablicy system sprawdza ilość róznych dat, tworzy jej listę dla każdej stacji a następnie sprawdza jaka jest ilość stacji z pełną satą pomiarów. 
+
+Wybrana została stacja z pełną historią, która wypisuje wszystkie datly dla których ma pomiary, a więc wszystkie dni wszystkich miesięcy lat 2001 - 2023, co urzyte będzie przy tworzeniu wykresu. 
+
+Stacja z niepełną historią pomiarów, zostaje wybrana z "\verb|stacje_z_data|", na bazie swojego unikalnego ID. Następnie program liczy ile dni pomiarowych ta stacja miała dla danego miesiąca i roku. Ta ilość zostaje urzyta w wykresie.  
+
+\begin{figure}
+    \centering
+    \includegraphics[width=0.5\linewidth]{projekt 4.1 - schemat.png}
+    \caption{Schemat pomiarów stacji w danym miesiącu}
+\end{figure}
+
+Z powodu nagromadzenia nazw miesięcy na osi $OX$ ich ilość została zmniejszona by wykres wyglądał przejrzyściej. 
+
+Następnie kod wybuera potrzebne danetakie aby się nie powtarzały.Tworzy z nich słownik który liczy ilośc pomiarów.
+Wybiera stację z pełną historią i przechodzi po "\verb|stacje_z_danymi|" i wybiera jedynie te z podanym id kodem stacji.
+
+Ustawia początkową datę na pierwszy dzień 2001,
+następnie oblicza ile dni upłynęło od początkowej daty i zapisuje tą informacje w tablicy numpy (dzięki temu każdemu pomiarowi może przypisać odpowiednią temperaturę).
+
+
+\begin{figure}
+    \centering
+    \includegraphics[width=0.5\linewidth]{projekt 4.2 schemat.png}
+    \caption{Enter Caption}
+    \label{fig:placeholder}
+\end{figure}
+
+
+
+\newpage
+
+\section{Ekstrema tempreatur}
+
+Na początek program importuje potrzebne bibloioteki. 
+
+Utworzona zostaje pusta lista na wiersze, która zostanie urzyta później. 
+
+Kod otwiera plik "\verb|dane.csv|" oraz upewnia się że zostanie on zamknięty po wypełnieniu swojej funkcji. Przetwarza wszystkie dane pliku zostawiając jedynie piątą i siódmą kolumnę - te w których znajdują się informacje o maksymalnej i minimalnej tempreraturze. 
+
+Zapisuje te dane w postacji tablicy \verb|NumPy|, co pozwala na łatwiejszą nimi manipulację. 
+
+Zamienia tekst na liczby, umorzliwiając porównywanie ich wielkości. Następnie szuka ekstremów każdej kolumny, maksimów dla najwyższych odnotowanych w danym dniu temperatur i minimów dla najniższych. Zapisuje te dane oraz odpowiadające im wiersze (w których zawierają się nazwy stacji badawczych i daty wykonnia pomiarów).
+
+Następnie wyświetla wyniki pokazując ekstremalne temperatury oraz datę, nazwę i ID stacji która je odnotowała. 
+
+\section{Porównanie}
+
+Wybrane zostają dwie stacje z pełną historią odczytów, a pobrane z nich dane są zapisane jako $s1$ i $s2$. 
+
+Daty i odnotowane temperatury zostają zapisane tak by program mógł je odczytać jako słowniki, których kluczami są dni pobrania danych a wartością średnia odnotowana temperatura.
+
+Dla dni w których stacje miały pomiar (więc wszystkich w latach 2001 - 2023) sortuje daty chronologicznie.
+
+Następnie odejmuje dane z $s1$ od $s2$ dla każdego z tych dni, zwracając listę różnic średnich dziennych temperatur. 
+
+Program tworzy numery kolejnych dni, a następnie przygtowywuje wykres rysując na nim linie odpowiadające zmianą w różnicy temperatur między stacjami. 
+
+\begin{figure}
+    \centering
+    \includegraphics[width=0.5\linewidth]{projekt 6.1 - schemat.png}
+    \caption{Różnice średnich temperatur między dwoma stacjami}
+    \label{fig:placeholder}
+\end{figure}
+Kod znajduje największą róznicę temperatur poprzez zidentyfikowanie najwyższego punktu na wykresie i wyświetla odnaleziony wynik. 
+
+
+
+
+
+
+\end{document}
